@@ -38,4 +38,4 @@ Compile the project for production with this command
 
 ## Screenshots
 
-<img width="1413" alt="data" src="https://github.com/otrujillo-dev/patients-appointments/assets/108013037/cc8a03bb-e1f2-47be-8673-e5faf0805e90">
+<img width="874" alt="data" src="https://github.com/otrujillo-dev/patients-appointments/assets/108013037/df22c86b-e9a8-4442-86d0-33fa9bb67302">
