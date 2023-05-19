@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import Error from './Error';
 
 
-const Form = ( { patients, setPatients, patient } ) => {
+const Form = ( { patients, setPatients, patient, setPatient } ) => {
 
     const [name, setName ] = useState('');
     const [owner, setOwner ] = useState('');
@@ -42,11 +42,20 @@ const Form = ( { patients, setPatients, patient } ) => {
             owner, 
             email, 
             discharge, 
-            symptoms,
-            id: makeUuid()
+            symptoms          
         }
 
-        setPatients( [...patients, patientObject] );
+        if( patient.id ){
+            //Edit patient object
+            patientObject.id = patient.id;
+            const patientUpdated = patients.map( patientState => patientState.id === patient.id ? patientObject : patientState);
+            setPatients( patientUpdated);
+            setPatient({});
+        }else{ 
+            //New patient object
+            patientObject.id = makeUuid();
+            setPatients( [...patients, patientObject] );
+        }
 
         //Reset form..
         setName('');

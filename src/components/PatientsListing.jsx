@@ -1,6 +1,6 @@
 import PatientItems from "./PatientsItems"
 
-const PatientsListing = ( { patients, setPatient } ) => {
+const PatientsListing = ( { patients, setPatient, deletePatient } ) => {
 
 
   return (
@@ -16,6 +16,7 @@ const PatientsListing = ( { patients, setPatient } ) => {
                     key = { patientData.id }
                     patientData = { patientData }
                     setPatient = { setPatient }
+                    deletePatient = { deletePatient }
                   />
               )) 
             }
