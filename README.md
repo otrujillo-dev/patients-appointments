@@ -38,5 +38,4 @@ Compile the project for production with this command
 
 ## Screenshots
 
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
-
+<img width="1413" alt="data" src="https://github.com/otrujillo-dev/patients-appointments/assets/108013037/cc8a03bb-e1f2-47be-8673-e5faf0805e90">
