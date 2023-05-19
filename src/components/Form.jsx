@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
+import Error from './Error';
 
 
-const Form = () => {
+const Form = ( { patients, setPatients, patient, setPatient } ) => {
 
     const [name, setName ] = useState('');
     const [owner, setOwner ] = useState('');
@@ -9,6 +10,22 @@ const Form = () => {
     const [discharge, setDischarge ] = useState('');
     const [symptoms, setSymptoms ] = useState('');
     const [error, setError] = useState(false);
+
+    useEffect(() => {
+        if( Object.keys(patient).length > 0 ){
+            setName( patient.name );
+            setOwner( patient.owner );
+            setEmail( patient.email );
+            setDischarge( patient.discharge );
+            setSymptoms( patient.symptoms );
+        }
+    }, [patient])
+
+    const makeUuid = () => {
+        const random_ = Math.random().toString(35).substring(2);
+        const date_ = Date.now().toString(35);
+        return random_ + date_;
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -19,19 +36,43 @@ const Form = () => {
             return;
         }
 
+        //Create patient object
+        const patientObject = {
+            name, 
+            owner, 
+            email, 
+            discharge, 
+            symptoms          
+        }
+
+        if( patient.id ){
+            //Edit patient object
+            patientObject.id = patient.id;
+            const patientUpdated = patients.map( patientState => patientState.id === patient.id ? patientObject : patientState);
+            setPatients( patientUpdated);
+            setPatient({});
+        }else{ 
+            //New patient object
+            patientObject.id = makeUuid();
+            setPatients( [...patients, patientObject] );
+        }
+
+        //Reset form..
+        setName('');
+        setOwner('');
+        setEmail('');
+        setDischarge('');
+        setSymptoms('');
         setError(false);
     }
 
 
     return (
-        <div className="md:w-1/2 lg:w-2/5">
+        <div className="md:w-1/2 lg:w-2/5 mx-5">
             <h2 className="font-black text-3xl text-center">Patient follow-up</h2>
             <p className="text-lg mt-5 text-center mb-10">Add and manage <span className="text-indigo-600 font-bold">Patients</span></p>
             
-            { error && (
-                    <div className="bg-red-800 text-white text-center p-3 uppercase font-bold mb-3 rounded-md">
-                        <p>All inputs are required, please fill all...</p>
-                    </div>)}
+            { error && <Error><p>All inputs are required, please fill all...</p></Error> }
 
             <form className="bg-white shadow-md rounded-lg py-10 px-10 mb-10" onSubmit={ handleSubmit }>
                 <div className="mb-5">
@@ -54,7 +95,7 @@ const Form = () => {
                     <label className="block text-gray-700 uppercase font-bold" htmlFor="symptoms">Symptoms:</label>
                     <textarea className="border-2 w-full p-2 mt-2" placeholder="Describe the symptoms..." id="symptoms" value={symptoms} onChange={ (e) => setSymptoms( e.target.value )  }/>
                 </div>
-                <input type="submit" className="bg-indigo-600 w-full p-3 text-white uppercase font-bold hover:bg-indigo-700 cursor-pointer transition-all" value="Send"/>
+                <input type="submit" className="bg-indigo-600 w-full p-3 text-white uppercase font-bold hover:bg-indigo-700 cursor-pointer transition-all" value={ patient.id ? 'Update patient' : 'Add patient' }/>
             </form>
         </div>
     )
